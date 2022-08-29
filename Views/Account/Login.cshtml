@@ -1,0 +1,39 @@
+﻿@model ServerChat_ws_51.Models.LoginModel
+
+<form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+
+    <div class="validation" asp-validation-summary="ModelOnly" />
+
+    <div style="height: 600px; width: 80%; justify-content: center; align-items: center; display: flex;">
+
+        <table style="width: 500px;">
+
+            <tr>
+                <td colspan="2" style="text-align: center; align-content:center; padding: 3px;">
+                    <h1 style="font-size:large; font-weight: 700;">
+                        ВХОД
+                    </h1>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 5px;" class="col-xs-6"><label asp-for="Email">Введите Email </label></td>
+                <td style="padding: 5px;" class="col-xs-6">
+                    <input type="text" asp-for="Email" style="width: 100%;" value="" />
+                    <span asp-validation-for="Email" />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 5px;" class="col-xs-6"><label asp-for="Password">Введите пароль</label></td>
+                <td style="padding: 5px;" class="col-xs-6">
+                    <input asp-for="Password" style="width: 100%;" value="" />
+                    <span asp-validation-for="Password" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input style="width: 100%; padding: 5px;" type="submit" value="Войти" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </div>
+</form>
+
