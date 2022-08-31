@@ -75,6 +75,7 @@ namespace ServerChat_ws_51.Socket2
 
                         if(users != null && users.Id > 0)
                         {
+                            mySocket.LoginEmail = users.email;
                             mySocket.UserName = users.userFio;
                             mySocket.IsAutorize = true;
 
