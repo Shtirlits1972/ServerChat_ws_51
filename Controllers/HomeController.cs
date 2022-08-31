@@ -12,6 +12,7 @@ namespace ServerChat_ws_51.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        static readonly string strData = DateTime.Now.ToString("G");
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -20,7 +21,8 @@ namespace ServerChat_ws_51.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Message"] = "ViewData";
+
+            ViewData["Message"] = strData;
 
             return View();
         }

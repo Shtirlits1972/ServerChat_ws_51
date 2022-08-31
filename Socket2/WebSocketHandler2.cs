@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -18,8 +19,9 @@ namespace ServerChat_ws_51.Socket2
         {
             await base.OnConnected(socket);
             var socketId = Connections.GetId(socket);
+            DateTime time = DateTime.Now;
 
-            MessageChat message = new MessageChat { NameUser = "Server", Text = "You connected", type = TypeOfMessage.ServerInfo };
+            MessageChat message = new MessageChat { LoginEmail = "Server", NameUser = "Server", Text = "You connected", DataMsg = time, type = TypeOfMessage.ServerInfo };
             string strMessage = JsonConvert.SerializeObject(message);
 
             await SendMessage(socket, strMessage);
@@ -29,6 +31,7 @@ namespace ServerChat_ws_51.Socket2
         public override async Task Recieve(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
         {
             string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+            DateTime time = DateTime.Now;
 
             MessageChat messageChat = JsonConvert.DeserializeObject<MessageChat>(message);
             var socketId = Connections.GetId(socket);
@@ -42,8 +45,8 @@ namespace ServerChat_ws_51.Socket2
                 if(model == null || model.Id < 1)
                 {
                     mySocket.IsAutorize = false;
-
-                    MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Register" };
+                    
+                    MessageChat error = new MessageChat { LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Register", DataMsg = time };
                     string strMessage = JsonConvert.SerializeObject(error);
                     await SendMessage(socket, strMessage);
                 }
@@ -52,7 +55,7 @@ namespace ServerChat_ws_51.Socket2
                     mySocket.UserName = model.userFio;
                     mySocket.IsAutorize = true;
 
-                    MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Success, Text = "Register Success" };
+                    MessageChat error = new MessageChat { LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Success, Text = "Register Success", DataMsg = time };
                     string strMessage = JsonConvert.SerializeObject(error);
                     await SendMessage(socket, strMessage);
                 }
@@ -75,7 +78,7 @@ namespace ServerChat_ws_51.Socket2
                             mySocket.UserName = users.userFio;
                             mySocket.IsAutorize = true;
 
-                            MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Success, Text = "Autorize Success" };
+                            MessageChat error = new MessageChat {LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Success, Text = "Autorize Success", DataMsg = time };
                             string strMessage = JsonConvert.SerializeObject(error);
                             await SendMessage(socket, strMessage);
                         }
@@ -83,7 +86,7 @@ namespace ServerChat_ws_51.Socket2
                         {
                             mySocket.IsAutorize = false;
 
-                            MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize" };
+                            MessageChat error = new MessageChat {  LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize", DataMsg = time };
                             string strMessage = JsonConvert.SerializeObject(error);
                             await SendMessage(socket, strMessage);
                         }
@@ -92,7 +95,7 @@ namespace ServerChat_ws_51.Socket2
                     {
                         mySocket.IsAutorize = false;
 
-                        MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize" };
+                        MessageChat error = new MessageChat { LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize", DataMsg = time };
                         string strMessage = JsonConvert.SerializeObject(error);
                         await SendMessage(socket, strMessage);
                     }
@@ -101,7 +104,7 @@ namespace ServerChat_ws_51.Socket2
                 {
                     mySocket.IsAutorize = false;
 
-                    MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize" };
+                    MessageChat error = new MessageChat { LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize", DataMsg = time };
                     string strMessage = JsonConvert.SerializeObject(error);
                     await SendMessage(socket, strMessage);
                 }
@@ -110,13 +113,13 @@ namespace ServerChat_ws_51.Socket2
             {
                 if (mySocket.IsAutorize == true)
                 {
-                    MessageChat request = new MessageChat { type= TypeOfMessage.Text, Text = messageChat.Text, NameUser = mySocket.UserName };
+                    MessageChat request = new MessageChat { type= TypeOfMessage.Text, Text = messageChat.Text, NameUser = mySocket.UserName, LoginEmail = mySocket.LoginEmail, DataMsg = time };
                     message = JsonConvert.SerializeObject(request);
                     await SendMessageToAll(message);
                 }
                 else
                 {
-                    MessageChat error = new MessageChat { NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize" };
+                    MessageChat error = new MessageChat { LoginEmail = "Server", NameUser = "Server", type = TypeOfMessage.Error, Text = "Error Autorize", DataMsg = time };
                     string strMessage = JsonConvert.SerializeObject(error);
                     await SendMessage(socket, strMessage);
                 }

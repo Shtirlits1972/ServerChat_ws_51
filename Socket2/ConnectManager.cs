@@ -15,7 +15,7 @@ namespace ServerChat_ws_51.Socket2
 
         public MySocket GetSocketById(string id)
         {
-            return _connections.FirstOrDefault(x => x.Id == id);
+            return _connections.FirstOrDefault(x => x.LoginEmail == id);
         }
 
         public List<MySocket> GetAllWebSockets()
@@ -25,7 +25,7 @@ namespace ServerChat_ws_51.Socket2
 
         public string GetId(WebSocket socket)
         {
-            return _connections.FirstOrDefault(x => x.webSocket == socket).Id;
+            return _connections.FirstOrDefault(x => x.webSocket == socket).LoginEmail;
         }
 
         public async Task RemoveSocketAsync(string id)
@@ -34,7 +34,7 @@ namespace ServerChat_ws_51.Socket2
 
             for(int i=0; i < _connections.Count; i++)
             {
-                if (_connections[i].Id == id)
+                if (_connections[i].LoginEmail == id)
                 {
                     _connections.RemoveAt(i);
                     break;
@@ -52,7 +52,7 @@ namespace ServerChat_ws_51.Socket2
         {
             MySocket socket2 = new MySocket();
             socket2.webSocket = socket;
-            socket2.Id = GetConnectionId();
+            socket2.LoginEmail = GetConnectionId();
 
             _connections.Add(socket2);
         }

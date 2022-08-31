@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ServerChat_ws_51.Models;
+using System;
 
 namespace ServerChat_ws_51.Handlers
 {
@@ -19,7 +20,9 @@ namespace ServerChat_ws_51.Handlers
             await base.OnConnected(socket);
             var socketId = Connections.GetId(socket);
 
-            MessageChat message = new MessageChat { NameUser = "Server", Text = "You in chat" };
+            DateTime time = DateTime.Now;
+
+            MessageChat message = new MessageChat { LoginEmail = "Server", NameUser = "Server", Text = "You in chat", DataMsg = time, type = TypeOfMessage.ServerInfo };
             string strMessage = JsonConvert.SerializeObject(message);
 
             await  SendMessage(socket, strMessage);

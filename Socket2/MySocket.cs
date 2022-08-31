@@ -9,7 +9,7 @@ namespace ServerChat_ws_51.Socket2
 {
     public class MySocket
     {
-        public string Id { get; set; } = String.Empty;
+        public string LoginEmail { get; set; } = String.Empty;
         public string UserName { get; set; } = String.Empty;
         public bool IsAutorize { get; set; } = false;
         public WebSocket webSocket { get; set; }
@@ -21,7 +21,7 @@ namespace ServerChat_ws_51.Socket2
 
         public override string ToString()
         {
-            return $"Id = {Id}, UserName = {UserName}, IsAutorize = {IsAutorize}";
+            return $"LoginEmail = {LoginEmail}, UserName = {UserName}, IsAutorize = {IsAutorize}";
         }
     }
 }
