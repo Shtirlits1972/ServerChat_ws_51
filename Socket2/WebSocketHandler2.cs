@@ -52,6 +52,7 @@ namespace ServerChat_ws_51.Socket2
                 }
                 else if(model != null || model.Id > 0)
                 {
+                    mySocket.LoginEmail = model.email;
                     mySocket.UserName = model.userFio;
                     mySocket.IsAutorize = true;
 
